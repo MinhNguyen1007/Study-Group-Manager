@@ -31,7 +31,7 @@ pip install -r requirements.txt
 ```
 
 ### Cách 2: Tải zip từ GitHub
-1. Truy cập: https://github.com/YOUR_USERNAME/study-group-manager
+1. Truy cập: https://github.com/MinhNguyen1007/Study-Group-Manager
 2. Click "Code" -> "Download ZIP"
 3. Giải nén file zip
 4. Mở terminal/command prompt trong thư mục giải nén
