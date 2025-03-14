@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Giao nhiệm vụ{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="back-link">
+        <a href="{{ url_for('main.admin_dashboard') }}">&larr; Quay lại Dashboard</a>
+    </div>
+
+    <div class="form-container">
+        <h2>Giao nhiệm vụ cho thành viên</h2>
+        
+        <form method="POST" class="task-form">
+            <div class="form-group">
+                <label for="title">Tiêu đề nhiệm vụ:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Mô tả:</label>
+                <textarea id="description" name="description" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="due_date">Hạn hoàn thành:</label>
+                <input type="date" id="due_date" name="due_date" required>
+            </div>
+
+            <div class="form-group">
+                <label>Chọn thành viên:</label>
+                <div class="user-selection">
+                    <div class="select-actions">
+                        <button type="button" class="btn btn-small" onclick="selectAllUsers()">Chọn tất cả</button>
+                        <button type="button" class="btn btn-small" onclick="deselectAllUsers()">Bỏ chọn tất cả</button>
+                    </div>
+                    <div class="user-list">
+                        {% for user in users %}
+                        <div class="user-checkbox">
+                            <label>
+                                <input type="checkbox" name="user_ids" value="{{ user['id'] }}">
+                                {{ user['username'] }}
+                                <span class="status-badge {{ user['status'] }}">
+                                    {{ 'Hoạt động' if user['status'] == 'active' else 'Đã khóa' }}
+                                </span>
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Giao nhiệm vụ</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function selectAllUsers() {
+    document.querySelectorAll('input[name="user_ids"]').forEach(checkbox => {
+        checkbox.checked = true;
+    });
+}
+
+function deselectAllUsers() {
+    document.querySelectorAll('input[name="user_ids"]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+}
+</script>
+
+<style>
+.user-selection {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.select-actions {
+    margin-bottom: 10px;
+}
+
+.user-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.user-checkbox {
+    padding: 5px 0;
+}
+
+.user-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-checkbox input[type="checkbox"] {
+    margin: 0;
+}
+
+.status-badge {
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+</style>
+{% endblock %} 

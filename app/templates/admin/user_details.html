@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Chi tiết người dùng{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="back-link">
+        <a href="{{ url_for('main.manage_users') }}">&larr; Quay lại danh sách</a>
+    </div>
+
+    <div class="user-details">
+        <h2>Chi tiết người dùng: {{ user['username'] }}</h2>
+        
+        <div class="user-info">
+            <p><strong>ID:</strong> {{ user['id'] }}</p>
+            <p><strong>Trạng thái:</strong> 
+                <span class="status-badge {{ user['status'] }}">
+                    {{ 'Hoạt động' if user['status'] == 'active' else 'Đã khóa' }}
+                </span>
+            </p>
+            <p><strong>Ngày tạo:</strong> {{ user['created_at'] }}</p>
+            <p><strong>Số nhiệm vụ:</strong> {{ user['task_count'] or 0 }}</p>
+            <p><strong>Đã hoàn thành:</strong> {{ user['completed_tasks'] or 0 }}</p>
+        </div>
+
+        <div class="user-actions">
+            <form action="{{ url_for('main.toggle_user_status', user_id=user['id']) }}" 
+                  method="POST" style="display: inline;">
+                <button type="submit" class="btn {% if user['status'] == 'active' %}btn-danger{% else %}btn-success{% endif %}">
+                    {{ 'Khóa tài khoản' if user['status'] == 'active' else 'Mở khóa tài khoản' }}
+                </button>
+            </form>
+
+            <form action="{{ url_for('main.reset_user_password', user_id=user['id']) }}" 
+                  method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-warning" 
+                        onclick="return confirm('Bạn có chắc muốn reset mật khẩu?')">
+                    Reset mật khẩu
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="user-tasks">
+        <h3>Nhiệm vụ của người dùng</h3>
+        {% if tasks %}
+        <div class="tasks-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tiêu đề</th>
+                        <th>Hạn</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task['title'] }}</td>
+                        <td>{{ task['due_date'] }}</td>
+                        <td>{{ task['status'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>Người dùng chưa có nhiệm vụ nào.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

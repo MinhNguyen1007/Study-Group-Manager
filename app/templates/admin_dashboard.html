@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h2>Admin Dashboard</h2>
+    
+    <div class="admin-section">
+        <h3>Quản lý thành viên</h3>
+        <a href="{{ url_for('main.add_user') }}" class="btn btn-primary">Thêm thành viên mới</a>
+        
+        <div class="users-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user['id'] }}</td>
+                        <td>{{ user['username'] }}</td>
+                        <td>
+                            <button class="btn btn-small">Sửa</button>
+                            <button class="btn btn-small btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="admin-section">
+        <h3>Tất cả nhiệm vụ</h3>
+        <div class="tasks-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tiêu đề</th>
+                        <th>Người thực hiện</th>
+                        <th>Hạn</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task['id'] }}</td>
+                        <td>{{ task['title'] }}</td>
+                        <td>{{ task['username'] }}</td>
+                        <td>{{ task['due_date'] }}</td>
+                        <td>{{ task['status'] }}</td>
+                        <td>
+                            <button class="btn btn-small">Sửa</button>
+                            <button class="btn btn-small btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

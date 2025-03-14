@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý người dùng{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <h2>Quản lý người dùng</h2>
+    
+    <div class="admin-actions">
+        <a href="{{ url_for('main.add_user') }}" class="btn btn-primary">Thêm thành viên mới</a>
+    </div>
+    
+    <div class="users-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên đăng nhập</th>
+                    <th>Ngày tạo</th>
+                    <th>Số nhiệm vụ</th>
+                    <th>Đã hoàn thành</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user['id'] }}</td>
+                    <td>{{ user['username'] }}</td>
+                    <td>{{ user['created_at'] }}</td>
+                    <td>{{ user['task_count'] or 0 }}</td>
+                    <td>{{ user['completed_tasks'] or 0 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if not users %}
+    <div class="no-data">
+        <p>Chưa có người dùng nào trong hệ thống.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

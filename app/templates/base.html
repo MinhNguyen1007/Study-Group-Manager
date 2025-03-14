@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Study Group Manager{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">Study Group Manager</div>
+        {% if session.get('user_id') %}
+        <div class="nav-links">
+            {% if session.get('is_admin') %}
+            <a href="{{ url_for('main.admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('main.manage_users') }}">Quản lý người dùng</a>
+            <a href="{{ url_for('main.assign_task') }}">Giao nhiệm vụ</a>
+            <a href="{{ url_for('main.add_user') }}">Thêm thành viên</a>
+            {% else %}
+            <a href="{{ url_for('main.user_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('main.add_task') }}">Thêm nhiệm vụ</a>
+            {% endif %}
+            <a href="{{ url_for('auth.logout') }}">Đăng xuất ({{ session.get('username') }})</a>
+        </div>
+        {% endif %}
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html> 
